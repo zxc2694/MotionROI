@@ -127,18 +127,18 @@ vector<Rect> GetComponents(const Mat &motionImg)
 
 void AvoidOutOfRange(const cv::Mat& img, cv::Rect& rect)
 {
-    if (rect.x < 0)
-		{
-			rect.width += rect.x;
-			rect.x = 0;
-		}
+	if (rect.x < 0)
+	{
+		rect.width += rect.x;
+		rect.x = 0;
+	}
 		if (rect.y < 0)
-		{
-			rect.height += rect.y;
-			rect.y = 0;
-		}
-		if (rect.x + rect.width > img.cols)
-			rect.width = img.cols - rect.x;
-		if (rect.y + rect.height > img.rows)
-			rect.height = img.rows - rect.y;
+	{
+		rect.height += rect.y;
+		rect.y = 0;
+	}
+	if (rect.x + rect.width > img.cols)
+		rect.width = img.cols - rect.x;
+	if (rect.y + rect.height > img.rows)
+		rect.height = img.rows - rect.y;
 }
