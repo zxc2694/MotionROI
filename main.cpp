@@ -72,6 +72,7 @@ bool motionDetect(Mat& frame, Mat& motionImg)
 {
 	static int motionFrame = 0;
 	static Mat startFrame, middleFrame;
+	Mat img1, img2;
 	if (startFrame.empty())
 		frame.copyTo(startFrame);
 	else if (++motionFrame == MOTION_FRAME_HALF_INTERVAL)
@@ -81,13 +82,14 @@ bool motionDetect(Mat& frame, Mat& motionImg)
 			frame.copyTo(middleFrame);
 		else
 		{
-			Mat img1 = frame, img2 = startFrame;
+			frame.copyTo(img1);
+			startFrame.copyTo(img2);
 			absdiff(img1, img2, motionImg);
 			threshold(motionImg, motionImg, IMG_DIFF_THRESH, 255, THRESH_BINARY);
 			Mat element = getStructuringElement(MORPH_RECT, Size(3, 3));
 			morphologyEx(motionImg, motionImg, MORPH_OPEN, element);
-			startFrame = middleFrame;
-			middleFrame = frame;
+			middleFrame.copyTo(startFrame);
+			frame.copyTo(middleFrame);
 			return true;
 		}
 	}
